@@ -45,7 +45,7 @@ def observe(book,truth,contrast,ambient,noise,drift,rng):
     n=len(truth); frames=book.shape[1]; obs=np.empty((n,frames))
     for k in range(frames):
         x=np.clip(np.rint(truth+drift*(k-(frames-1)/2)).astype(int),0,NPIX-1)
-        obs[:,k]=ambient+contrast*book[x,k]+rng.normal(0,noise,n)
+        sigma_raw=np.sqrt(noise**2 + 0.01*ambient)\n        obs[:,k]=ambient+contrast*book[x,k]+rng.normal(0,sigma_raw,n)
     return np.clip((obs-ambient)/max(contrast,1e-6),-1,2)
 
 def score(pred,valid,truth):
